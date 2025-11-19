@@ -1,0 +1,50 @@
+/* Header Container */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 40px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.logo h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Navbar Menu */
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.navbar ul li {
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.navbar ul li:hover {
+  color: #007bff;
+}
+
+/* Icons */
+.icons {
+  display: flex;
+  gap: 20px;
+}
+
+.icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: #000;
+  transition: 0.3s;
+}
+
+.icon:hover {
+  color: #007bff;
+}
