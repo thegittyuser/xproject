@@ -1,6 +1,16 @@
+import { useEffect, useState } from "react";
 import "../assets/css/home.css";
 
 function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/productsapi")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Error Fetching Products.", err));
+  }, []);
+
   return (
     <>
       <section className="hero">
@@ -18,65 +28,18 @@ function Home() {
         </div>
       </section>
       {/* hero end */}
-      <section class="products">
-        <h2 class="title">Featured Products</h2>
+      <section className="products">
+        <h2 className="title">Featured Products</h2>
 
-        <div class="product-container">
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 1</h3>
-            <p class="price">$49</p>
-            <button class="btn">Add to Cart</button>
-          </div>
-
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 2</h3>
-            <p class="price">$59</p>
-            <button class="btn">Add to Cart</button>
-          </div>
-
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 3</h3>
-            <p class="price">$39</p>
-            <button class="btn">Add to Cart</button>
-          </div>
-
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 4</h3>
-            <p class="price">$29</p>
-            <button class="btn">Add to Cart</button>
-          </div>
-
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 5</h3>
-            <p class="price">$69</p>
-            <button class="btn">Add to Cart</button>
-          </div>
-
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 6</h3>
-            <p class="price">$19</p>
-            <button class="btn">Add to Cart</button>
-          </div>
-
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 7</h3>
-            <p class="price">$89</p>
-            <button class="btn">Add to Cart</button>
-          </div>
-
-          <div class="product-card">
-            {/* <img src="https://via.placeholder.com/250" alt=""> */}
-            <h3>Product 8</h3>
-            <p class="price">$99</p>
-            <button class="btn">Add to Cart</button>
-          </div>
+        <div className="product-container">
+          {products.map((product) => (
+            <div className="product-card" key={product.id}>
+              <img src={product.image} alt={product.title} />
+              <h3>{product.title}</h3>
+              <p className="price">Rs. {product.price}</p>
+              <button className="btn">Add to Cart</button>
+            </div>
+          ))}
         </div>
       </section>
     </>
