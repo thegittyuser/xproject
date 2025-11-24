@@ -18,10 +18,8 @@ app.use(
     origin: "http://localhost:5173",
   })
 );
-app.use(
-  "/public",
-  express.static(path.join(__dirname, "public", "product_images"))
-);
+
+app.use(express.static(path.join(__dirname, "public", "product_images")));
 
 app.get("/", (req, res) => {
   res.send("Home Page");
