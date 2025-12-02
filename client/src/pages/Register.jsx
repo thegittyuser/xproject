@@ -9,22 +9,27 @@ function Register() {
     phone: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // submission testing
-    // console.log({ ...form });
-  
-    // try {
-    //   const response = fetch("http://localhost:3000/doregister",
-    //   {
-    //     'method': "POST",
-    //     "content-type": "application/json",
-        
-    //   }
-    // } catch (error) {
-      
-    // }
-  
+    try {
+      // backend API call
+      const response = await fetch("http://localhost:3000/doregister", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json;
+
+      if (response.ok) {
+        alert(data.message);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      console.log("Registration Failed", err);
+    }
   };
 
   return (

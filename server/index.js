@@ -21,6 +21,20 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "public", "product_images")));
 
+// db connection file
+import dbConnect from "./config/db.js";
+// database fn Call
+dbConnect();
+
+// import router filre
+import router from "./routes/userdata.route.js";
+// router middleware
+app.use(router);
+
+// form middleware
+app.use(express.json);
+app.use(express.urlencoded({ extended: false }));
+
 app.get("/", (req, res) => {
   res.send("Home Page");
 });
