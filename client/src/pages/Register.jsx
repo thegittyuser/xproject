@@ -13,13 +13,13 @@ function Register() {
     e.preventDefault();
     try {
       // backend API call
-      const response = await fetch("http://localhost:3000/doregister", {
+      const response = await fetch("http://localhost:5000/doregister", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
 
-      const data = await response.json;
+      const data = response.json();
 
       if (response.ok) {
         alert(data.message);
@@ -28,7 +28,7 @@ function Register() {
       }
     } catch (err) {
       console.error(err);
-      console.log("Registration Failed", err);
+      console.log("Registration Failed");
     }
   };
 

@@ -1,45 +1,40 @@
 import dotenv from "dotenv";
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
 import products from "./api/productsApi.js";
 import cors from "cors";
+import path, { join } from "path";
+import { fileURLToPath } from "url";
+import router from "./routes/userdata.route.js";
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
-// path for ESM(ECMA Script Module)
+// dirname for ESM (ECMA Script Module)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// cors middleware
+// cross origin middleware
 app.use(
   cors({
     origin: "http://localhost:5173",
   })
 );
+// static files middleware
+app.use(express.static(path.join(__dirname, "./public/products_images")));
 
-app.use(express.static(path.join(__dirname, "public", "product_images")));
-
-// db connection file
-import dbConnect from "./config/db.js";
-// database fn Call
-dbConnect();
-
-// import router filre
-import router from "./routes/userdata.route.js";
-// router middleware
-app.use(router);
-
-// form middleware
-app.use(express.json);
+// form middlewares
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-  res.send("Home Page");
-});
+// router middleware
+app.use("/", router);
 
-app.get("/productsapi", (req, res) => {
+// db connection file
+import dbConnection from "./config/db.js";
+// db fn Callback
+dbConnection();
+
+app.get("/api", (req, res) => {
   res.json(products);
 });
 
