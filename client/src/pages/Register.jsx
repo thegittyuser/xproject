@@ -19,10 +19,16 @@ function Register() {
         body: JSON.stringify(form),
       });
 
-      const data = response.json();
+      const data = await response.json();
 
       if (response.ok) {
         alert(data.message);
+        setForm({
+          username: "",
+          email: "",
+          password: "",
+          phone: "",
+        });
       } else {
         alert(data.message);
       }
@@ -46,6 +52,7 @@ function Register() {
               placeholder="Enter your last name"
               name="username"
               onChange={(e) => setForm({ ...form, username: e.target.value })}
+              value={form.username}
             />
           </div>
 
@@ -56,6 +63,7 @@ function Register() {
               placeholder="Enter your email"
               name="email"
               onChange={(e) => setForm({ ...form, email: e.target.value })}
+              value={form.email}
             />
           </div>
 
@@ -66,6 +74,7 @@ function Register() {
               placeholder="Enter your password"
               name="password"
               onChange={(e) => setForm({ ...form, password: e.target.value })}
+              value={form.password}
             />
           </div>
 
@@ -76,6 +85,7 @@ function Register() {
               placeholder="Phone No"
               name="phone"
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              value={form.phone}
             />
           </div>
 

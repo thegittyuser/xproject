@@ -4,6 +4,11 @@ export const doregister = async (req, res) => {
   try {
     const { username, email, password, phone } = req.body;
 
+    // existing email checking
+    const existingEmail = await userModel.findOne({ email });
+    if (existingEmail)
+      return res.status(400).json({ message: "Email is already registered" });
+
     const userDetail = await userModel.create({
       username,
       email,
