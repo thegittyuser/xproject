@@ -21,7 +21,7 @@ function Register() {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (data.ok) {
         alert(data.message);
         setForm({
           username: "",
