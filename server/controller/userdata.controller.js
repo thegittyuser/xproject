@@ -32,3 +32,19 @@ export const doregister = async (req, res) => {
 };
 
 // login controller
+export const dologin = () => async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ ok: false, message: "Email does not exist" });
+    } else {
+      return res.status(200).json({ ok: true, message: "login successful" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status.json({ ok: false, message: "Invalid Server Error" });
+  }
+};

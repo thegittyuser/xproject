@@ -18,9 +18,9 @@ function Login() {
 
       const data = await response.json();
       if (data.ok) {
-        alert(data.message);
+        console.log(data.message);
       } else {
-        alert(data.message);
+        console.log(data.message);
       }
     } catch (err) {
       console.error(err);
