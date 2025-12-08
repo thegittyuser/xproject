@@ -20,7 +20,7 @@ function Login() {
       if (data.ok) {
         console.log(data.message);
       } else {
-        console.log(data.message);
+        alert(data.message);
       }
     } catch (err) {
       console.error(err);
