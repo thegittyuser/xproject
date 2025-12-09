@@ -5,7 +5,7 @@ function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/productsapi")
+    fetch("http://localhost:5000/api")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Error Fetching Products.", err));

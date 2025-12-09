@@ -4,9 +4,9 @@ import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Cart from "../pages/Cart";
 import Contact from "../pages/Contact";
-import Login from "../pages/Login";
 import Checkout from "../pages/Checkout";
 import OrderComplete from "../pages/OrderComplete";
+import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Footer from "../components/Footer";
 function Index() {
@@ -21,8 +21,8 @@ function Index() {
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/checkout" element={<Checkout />}></Route>
           <Route path="/ordercomplete" element={<OrderComplete />}></Route>
-          <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route path="/login" element={<Login />}></Route>
         </Routes>
         <Footer />
       </Router>

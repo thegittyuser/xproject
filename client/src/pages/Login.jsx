@@ -8,7 +8,6 @@ function Login() {
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch("http://localhost:5000/dologin", {
         method: "POST",
@@ -24,7 +23,7 @@ function Login() {
       }
     } catch (err) {
       console.error(err);
-      console.log("Login Failed. Try Again");
+      console.log("Login Failed. Try Again", err);
     }
   };
 

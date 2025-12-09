@@ -20,7 +20,7 @@ app.use(
   })
 );
 // static files middleware
-app.use(express.static(path.join(__dirname, "./public/products_images")));
+app.use(express.static(path.join(__dirname, "./public/product_images")));
 
 // form middlewares
 app.use(express.json());

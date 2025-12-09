@@ -40,8 +40,16 @@ export const dologin = () => async (req, res) => {
       return res
         .status(400)
         .json({ ok: false, message: "Email does not exist" });
+    }
+
+    // pass_hash verify
+    const passMatch = await bcrypt.compare(password, user.password);
+    if (!passMatch) {
+      return res
+        .status(400)
+        .json({ ok: false, message: "Password not match!" });
     } else {
-      return res.status(200).json({ ok: true, message: "login successful" });
+      return res.status(200).json({ ok: true, message: "Login Successsful" });
     }
   } catch (error) {
     console.error(error);
