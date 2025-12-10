@@ -9,6 +9,7 @@ import OrderComplete from "../pages/OrderComplete";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Footer from "../components/Footer";
+import Profile from "../pages/Profile";
 function Index() {
   return (
     <>
@@ -23,6 +24,7 @@ function Index() {
           <Route path="/ordercomplete" element={<OrderComplete />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/profile/:email" element={<Profile />}></Route>
         </Routes>
         <Footer />
       </Router>

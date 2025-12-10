@@ -32,18 +32,18 @@ export const doregister = async (req, res) => {
 };
 
 // login controller
-export const dologin = () => async (req, res) => {
+export const dologin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
-    if (!user) {
+    const userDetail = await userModel.findOne({ email });
+    if (!userDetail) {
       return res
         .status(400)
         .json({ ok: false, message: "Email does not exist" });
     }
 
     // pass_hash verify
-    const passMatch = await bcrypt.compare(password, user.password);
+    const passMatch = await bcrypt.compare(password, userDetail.password);
     if (!passMatch) {
       return res
         .status(400)
@@ -54,5 +54,15 @@ export const dologin = () => async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status.json({ ok: false, message: "Invalid Server Error" });
+  }
+};
+
+export const Profile = async (req, res) => {
+  const { email } = req.params;
+  const user = await userModel.findOne({ email });
+  if (!user) {
+    return res.status(400).json({ ok: false, message: "User not found!" });
+  } else {
+    return res.json({ ok: true, message: "User Found", user });
   }
 };

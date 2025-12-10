@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "../assets/css/login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Login() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -18,6 +20,7 @@ function Login() {
       const data = await response.json();
       if (data.ok) {
         console.log(data.message);
+        navigate(`/profile/${data.user.email}`);
       } else {
         alert(data.message);
       }
