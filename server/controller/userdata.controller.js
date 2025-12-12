@@ -49,7 +49,13 @@ export const dologin = async (req, res) => {
         .status(400)
         .json({ ok: false, message: "Password not match!" });
     } else {
-      return res.status(200).json({ ok: true, message: "Login Successsful" });
+      return res
+        .status(200)
+        .json({
+          ok: true,
+          message: "Login Successsful",
+          userEmail: { email: userDetail.email },
+        });
     }
   } catch (error) {
     console.error(error);
