@@ -1,0 +1,50 @@
+The uuid npm package is used to generate universally unique identifiers (UUIDs) in JavaScript in a standard, reliable, and cross-platform way.
+
+What problem uuid solves:
+JavaScript does not have a built-in UUID generator that:
+    Fully follows the UUID RFC standards
+    Works consistently across Node.js and browsers
+    Supports multiple UUID versions
+The uuid package fills that gap.
+
+What uuid is good for:
+
+1. Generating unique IDs
+Used for:
+    Database primary keys
+    Object identifiers
+    Session IDs (non-auth)
+    Correlation / request IDs
+    Client-generated IDs (offline support)
+2. RFC-compliant UUIDs
+uuid follows RFC 4122 / RFC 9562 standards:
+    Correct version bits
+    Correct variant bits
+    Proper randomness
+Homegrown solutions (Math.random()) do not meet these guarantees.
+
+3. Multiple UUID versions
+
+The package supports:
+Version	Purpose
+    v1	->  Timestamp + MAC (ordered, but leaks info)
+    v3  ->	Name-based (MD5)
+    v4  ->	Random (most common)
+    v5  ->	Name-based (SHA-1)
+    v7  ->	Time-ordered (modern, DB-friendly)
+
+4. Works everywhere
+    Node.js
+    Browsers
+    Edge / serverless
+    React, Next.js, mobile web
+It automatically uses:
+    crypto.randomUUID() when available
+    Secure randomness (crypto.getRandomValues) otherwise
+
+When you should use uuid:
+    Need unique IDs across systems
+    Client-generated IDs
+    Distributed systems
+    Offline-first apps
+    Database keys (especially UUIDv7)

@@ -1,0 +1,24 @@
+The crypto-js npm package is used when you need basic cryptographic operations in JavaScript, especially in environments where the Node.js built-in crypto module isn’t available (like browsers).
+
+What crypto-js is good for
+1. Browser-compatible cryptography
+crypto-js works in:
+    Browsers
+    Frontend frameworks (React, Vue, Angular)
+2. Simple hashing
+Useful for:
+    Checksums
+    Non-security-critical hashing
+    Generating deterministic IDs
+3. Symmetric encryption (AES, DES, etc.)
+Used for:
+    Light client-side data obfuscation
+    Encrypting localStorage/sessionStorage
+    Sending encrypted payloads when required by legacy APIs
+⚠️ Important: This is not secure against a determined attacker if the key is in client-side code.
+4. Cross-platform consistency
+Same API and output across:
+    Browser
+    Node.js
+    Mobile webviews
+This is useful when you must match encryption/hashes between frontend and backend.
