@@ -20,7 +20,7 @@ function Login() {
       const data = await response.json();
       if (data.ok) {
         console.log(data.message);
-        navigate(`/profile/${data.userEmail.email}`);
+        navigate(`/profile/${data.userEmail.sessionId}`);
       } else {
         alert(data.message);
       }

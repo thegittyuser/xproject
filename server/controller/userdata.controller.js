@@ -55,28 +55,52 @@ export const dologin = async (req, res) => {
         .json({ ok: false, message: "Password not match!" });
     } else {
       const dynamicKey = cryptoJS.lib.WordArray.random(32).toString();
+      const encryptedMail = cryptoJS.AES.encrypt(email, dynamicKey).toString();
       const sessionId = uuidv4();
-      sessionId[sessionKeys] = dynamicKey;
-      const encryptedEmail = cryptoJS.AES.encrypt(email, dynamicKey).toString();
+      sessionKeys[sessionId] = { dynamicKey, encryptedEmail: encryptedMail };
 
       return res.status(200).json({
         ok: true,
         message: "Login Successsful",
-        userEmail: { email: userDetail.email },
+        userEmail: {
+          sessionId,
+        },
       });
     }
   } catch (error) {
     console.error(error);
-    return res.status.json({ ok: false, message: "Invalid Server Error" });
+    return res.status(500).json({ ok: false, message: "Invalid Server Error" });
   }
 };
 
 export const Profile = async (req, res) => {
-  const { email } = req.params;
-  const user = await userModel.findOne({ email });
-  if (!user) {
-    return res.status(400).json({ ok: false, message: "User not found!" });
-  } else {
-    return res.json({ ok: true, message: "User Found", user });
+  try {
+    const { sessionId } = req.params;
+
+    if (!sessionKeys[sessionId]) {
+      return res.status(404).json({ ok: false, message: "Invalid Session ID" });
+    }
+
+    const { encryptedEmail, dynamicKey } = sessionKeys[sessionId];
+    const decryptedMail = cryptoJS.AES.decrypt(
+      encryptedEmail,
+      dynamicKey
+    ).toString(cryptoJS.enc.Utf8);
+
+    if (!dynamicKey) {
+      return res
+        .status(400)
+        .json({ ok: false, message: "Email Decryption Failed" });
+    }
+
+    const user = await userModel.findOne({ email: decryptedMail });
+    if (!user) {
+      return res.status(400).json({ ok: false, message: "User not found!" });
+    } else {
+      return res.json({ ok: true, email: user.email });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ ok: false, message: "Invalid Server Error" });
   }
 };

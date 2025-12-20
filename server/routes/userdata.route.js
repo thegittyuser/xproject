@@ -8,6 +8,6 @@ import {
 
 router.post("/doregister", doregister);
 router.post("/dologin", dologin);
-router.get("/profile/:email", Profile);
+router.get("/profile/:sessionId", Profile);
 
 export default router;
