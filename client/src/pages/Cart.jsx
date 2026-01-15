@@ -1,33 +1,45 @@
+import { useEffect } from "react";
 import "../assets/css/cart.css";
 import { Link } from "react-router-dom";
-const Cart = () => {
+import { useState } from "react";
+
+function Cart() {
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/cart")
+      .then((res) => res.json())
+      .then((data) => {
+        setCartItems(data.cartItems);
+      })
+      .catch((err) => console.error("Error Fetching Products.", err));
+  }, []);
+
   return (
     <div className="container">
       {/* Cart Items */}
       <div className="cart-items">
         <h2>Your Cart</h2>
+        {cartItems.map((item, index) => (
+          <div className="cart-item" key={index}>
+            <img src={item.image} alt={item.title} />
 
-        <div className="cart-item">
-          <img src="https://via.placeholder.com/90" alt="Product" />
+            <div className="item-details">
+              <div className="item-name">{item.title}</div>
+              <div className="price">Rs {item.price}</div>
 
-          <div className="item-details">
-            <div className="item-name">Product Name</div>
-            <div className="price">$30.00</div>
-
-            <div className="quantity">
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
+              <div className="quantity">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
+              </div>
             </div>
+
+            <div className="subtotal">Rs {item.price}</div>
+            <div className="remove">×</div>
           </div>
-
-          <div className="subtotal">$30.00</div>
-          <div className="remove">×</div>
-        </div>
-
-        {/* You can duplicate <div className="cart-item"> … </div> for more products */}
+        ))}
       </div>
-
       {/* Order Summary */}
       <div className="summary">
         <h3>Order Summary</h3>
@@ -60,6 +72,6 @@ const Cart = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Cart;
