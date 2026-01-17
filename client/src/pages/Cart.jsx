@@ -6,14 +6,29 @@ import { useState } from "react";
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
 
-  useEffect(() => {
+  const cartProducts = () => {
     fetch("http://localhost:5000/cart")
       .then((res) => res.json())
       .then((data) => {
         setCartItems(data.cartItems);
       })
       .catch((err) => console.error("Error Fetching Products.", err));
-  }, []);
+  };
+
+  useEffect(cartProducts, []);
+
+  const updateQty = () => {
+    fetch(`http://localhost:5000/cart/${id}`, {
+      method: "PUT",
+    });
+    cartProducts();
+  };
+
+  const removeProduct = () => {
+    fetch(`http://localhost:5000/delete/${id}`, {
+      method: "DELETE",
+    });
+  };
 
   return (
     <div className="container">
@@ -26,17 +41,20 @@ function Cart() {
 
             <div className="item-details">
               <div className="item-name">{item.title}</div>
-              <div className="price">Rs {item.price}</div>
+              <br />
+              {/* <div className="price">Rs {item.price * item.quantity}</div> */}
 
               <div className="quantity">
-                <button>-</button>
-                <span>1</span>
-                <button>+</button>
+                <button onClick={() => updateQty()}>-</button>
+                <span>{item.quantity}</span>
+                <button onClick={() => updateQty()}>+</button>
               </div>
             </div>
 
-            <div className="subtotal">Rs {item.price}</div>
-            <div className="remove">×</div>
+            <div className="subtotal">Rs {item.price * item.quantity}</div>
+            <div className="remove" onClick={() => removeProduct()}>
+              ×
+            </div>
           </div>
         ))}
       </div>
