@@ -17,17 +17,18 @@ function Cart() {
 
   useEffect(cartProducts, []);
 
-  const updateQty = () => {
-    fetch(`http://localhost:5000/cart/${id}`, {
+  const updateQty = async (type, id) => {
+    await fetch(`http://localhost:5000/cart/${type}/${id}`, {
       method: "PUT",
     });
     cartProducts();
   };
 
-  const removeProduct = () => {
-    fetch(`http://localhost:5000/delete/${id}`, {
+  const removeProduct = async (id) => {
+    await fetch(`http://localhost:5000/cart/${id}`, {
       method: "DELETE",
     });
+    cartProducts();
   };
 
   return (
@@ -35,8 +36,8 @@ function Cart() {
       {/* Cart Items */}
       <div className="cart-items">
         <h2>Your Cart</h2>
-        {cartItems.map((item, index) => (
-          <div className="cart-item" key={index}>
+        {cartItems.map((item) => (
+          <div className="cart-item" key={item._id}>
             <img src={item.image} alt={item.title} />
 
             <div className="item-details">
@@ -45,14 +46,18 @@ function Cart() {
               {/* <div className="price">Rs {item.price * item.quantity}</div> */}
 
               <div className="quantity">
-                <button onClick={() => updateQty()}>-</button>
+                <button onClick={() => updateQty(item._id, "decrease")}>
+                  -
+                </button>
                 <span>{item.quantity}</span>
-                <button onClick={() => updateQty()}>+</button>
+                <button onClick={() => updateQty(item._id, "increase")}>
+                  +
+                </button>
               </div>
             </div>
 
             <div className="subtotal">Rs {item.price * item.quantity}</div>
-            <div className="remove" onClick={() => removeProduct()}>
+            <div className="remove" onClick={() => removeProduct(item._id)}>
               ×
             </div>
           </div>

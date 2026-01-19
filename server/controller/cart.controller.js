@@ -35,23 +35,45 @@ export const getCart = async (req, res) => {
 };
 
 export const increaseQty = async (req, res) => {
-  let existingItem = req.params.id;
-  existingItem.quantity += 1;
-  await existingItem.save();
-  return res.json({ ok: true });
+  try {
+    let existingItem = await cartModel.findById(req.params.id);
+    existingItem.quantity += 1;
+    await existingItem.save();
+    return res.json({ ok: true, message: "Quantity Updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, message: "Internal Server Error" });
+  }
 };
 
 export const decreaseQty = async (req, res) => {
-  let existingItem = req.params.id;
-  if (existingItem > 1) {
-    existingItem.quantity -= 1;
-    await existingItem.save();
-    return res.json({ ok: true, message: "Quantity Updated" });
+  try {
+    let existingItem = await cartModel.findById(req.params.id);
+    if (existingItem.quantity > 1) {
+      existingItem.quantity -= 1;
+      await existingItem.save();
+      return res.json({ ok: true, message: "Quantity Updated" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, message: "Internal Server Error" });
   }
 };
 
 export const removeProduct = async (req, res) => {
-  const itemId = req.params.id;
-  await findByIdAndDelete({ itemId: id });
-  return res.json({ ok: true, message: "Quantity Updated" });
+  try {
+    await cartModel.findByIdAndDelete(req.params.id);
+    return res.json({ ok: true, message: "Product Removed!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, message: "Internal Server Error" });
+  }
+};
+
+export const checkout = () => {
+  try {
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, message: "Internal Server Error" });
+  }
 };

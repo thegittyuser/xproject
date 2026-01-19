@@ -22,7 +22,7 @@ router.get("/profile/:sessionId", Profile);
 // cart
 router.post("/cart", cart);
 router.get("/cart", getCart);
-router.put(`/cart/:id`, increaseQty);
-router.put(`/cart/:id`, decreaseQty);
-router.delete(`/cart/:id`, removeProduct);
+router.put("/cart/:id/increase", increaseQty);
+router.put("/cart/:id/decrease", decreaseQty);
+router.delete("/cart/:id", removeProduct);
 export default router;
