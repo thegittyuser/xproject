@@ -1,4 +1,5 @@
 import cartModel from "../model/cart.model.js";
+import orderModel from "../model/order.model.js";
 
 export const cart = async (req, res) => {
   try {
@@ -72,6 +73,30 @@ export const removeProduct = async (req, res) => {
 
 export const checkout = () => {
   try {
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, message: "Internal Server Error" });
+  }
+};
+
+export const placeOrder = async (req, res) => {
+  try {
+    const cartItems = await cartModel.find();
+    if (cartItems.length < 1) {
+      return res.status(400).json({ ok: false, message: "No items in cart" });
+    } else {
+      const totalPrice = cartItems.reduce((item, sumPrice) => {
+        (sumPrice + item.price * item.quantity, 0);
+      });
+      await orderModel.create({
+        product: cartItems,
+        totalPrice,
+        customer: req.body,
+      });
+      return res
+        .status(201)
+        .json({ ok: true, message: "Order Placed Successfully." });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ ok: false, message: "Internal Server Error" });

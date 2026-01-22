@@ -84,7 +84,7 @@ export const Profile = async (req, res) => {
     const { encryptedEmail, dynamicKey } = sessionKeys[sessionId];
     const decryptedMail = cryptoJS.AES.decrypt(
       encryptedEmail,
-      dynamicKey
+      dynamicKey,
     ).toString(cryptoJS.enc.Utf8);
 
     if (!dynamicKey) {
