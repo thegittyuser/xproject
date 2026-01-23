@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../assets/css/checkout.css";
 
 function Checkout() {
@@ -12,6 +12,27 @@ function Checkout() {
     city: "",
     postalCode: "",
   });
+
+  const cartProducts = () => {
+    fetch("http://localhost:5000/cart")
+      .then((res) => res.json())
+      .then((data) => {
+        setCartItems(data.cartItems);
+      })
+      .catch((err) => console.error("Error Fetching Products.", err));
+  };
+
+  useEffect(cartProducts, []);
+
+  const checkout = () => {
+    fetch("http://localhost:5000/checkout", {
+      method: "POST",
+      header: { "Content-Type": "application/json" },
+      body: JSON.stringify(customer, cartItems),
+    });
+  };
+
+  useEffect(checkout);
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -33,7 +54,9 @@ function Checkout() {
               typ="text"
               name="firstName"
               value={customer.firstName}
-              onChange={(e) => setCustomer(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, firstName: e.target.value })
+              }
             />
           </div>
 
@@ -42,7 +65,9 @@ function Checkout() {
             <input
               type="text"
               value={customer.lastName}
-              onChange={(e) => setCustomer(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, lastName: e.target.value })
+              }
             />
           </div>
 
@@ -51,7 +76,9 @@ function Checkout() {
             <input
               type="email"
               value={customer.email}
-              onChange={(e) => setCustomer(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, email: e.target.value })
+              }
             />
           </div>
 
@@ -60,7 +87,9 @@ function Checkout() {
             <input
               type="tel"
               value={customer.phone}
-              onChange={(e) => setCustomer(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, phone: e.target.value })
+              }
             />
           </div>
 
@@ -69,7 +98,9 @@ function Checkout() {
             <input
               type="text"
               value={customer.address}
-              onChange={(e) => setCustomer(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, address: e.target.value })
+              }
             />
           </div>
 
@@ -78,7 +109,9 @@ function Checkout() {
             <input
               type="text"
               value={customer.city}
-              onChange={(e) => setCustomer(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, city: e.target.value })
+              }
             />
           </div>
 
@@ -87,7 +120,9 @@ function Checkout() {
             <input
               type="number"
               value={customer.postalCode}
-              onChange={(e) => setCustomer(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, postalCode: e.target.value })
+              }
             />
           </div>
 
