@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "../assets/css/checkout.css";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [customer, setCustomer] = useState({
     firstName: "",
@@ -24,16 +26,6 @@ function Checkout() {
 
   useEffect(cartProducts, []);
 
-  const checkout = () => {
-    fetch("http://localhost:5000/checkout", {
-      method: "POST",
-      header: { "Content-Type": "application/json" },
-      body: JSON.stringify(customer, cartItems),
-    });
-  };
-
-  useEffect(checkout);
-
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
@@ -41,17 +33,67 @@ function Checkout() {
   const shipping = 100;
   const total = subtotal + shipping;
 
+  // const checkout = async () => {
+  //   await fetch("http://localhost:5000/checkout", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       customer,
+  //     }),
+  //   });
+  //   navigate("/shop");
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // backend API call
+      const response = await fetch("http://localhost:5000/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.ok) {
+        console.log(data.message);
+        setCustomer({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          address: "",
+          city: "",
+          postalCode: "",
+        });
+        navigate("/");
+      } else {
+        console.log(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      console.log("Order Failed");
+    }
+  };
+
   return (
     <div className="checkout-container checkout-grid">
       {/* LEFT SIDE — FORM */}
       <div className="checkout-form">
         <h2>Checkout</h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>First Name</label>
             <input
-              typ="text"
+              type="text"
               name="firstName"
               value={customer.firstName}
               onChange={(e) =>
@@ -134,7 +176,9 @@ function Checkout() {
             </label>
           </div>
 
-          <button className="place-order-btn">Place Order</button>
+          <button className="place-order-btn" type="submit">
+            Place Order
+          </button>
         </form>
       </div>
 

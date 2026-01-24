@@ -10,6 +10,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Footer from "../components/Footer";
 import Profile from "../pages/Profile";
+import Orders from "../pages/Orders";
 function Index() {
   return (
     <>
@@ -21,6 +22,7 @@ function Index() {
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/checkout" element={<Checkout />}></Route>
+          <Route path="/orders" element={<Orders />}></Route>
           <Route path="/ordercomplete" element={<OrderComplete />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>

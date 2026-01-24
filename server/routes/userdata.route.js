@@ -11,6 +11,7 @@ import {
   cart,
   decreaseQty,
   getCart,
+  getOrders,
   increaseQty,
   placeOrder,
   removeProduct,
@@ -26,5 +27,6 @@ router.get("/cart", getCart);
 router.put("/cart/:id/increase", increaseQty);
 router.put("/cart/:id/decrease", decreaseQty);
 router.delete("/cart/:id", removeProduct);
-router.get("/checkout", placeOrder);
+router.post("/checkout", placeOrder);
+router.get("/orders", getOrders);
 export default router;
